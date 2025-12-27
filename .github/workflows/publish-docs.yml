@@ -77,7 +77,7 @@ jobs:
         run: mkdocs build --strict -f mkdocs.yml
 
       - name: "Clone docs repo"
-        run: git clone https://${{ secrets.ASTRAL_DOCS_PAT }}@github.com/astral-sh/docs.git astral-docs
+        run: git clone https://${{ secrets.ASTRAL_DOCS_PAT }}@github.com/samypr100/astral-docs.git astral-docs
 
       - name: "Copy docs"
         run: rm -rf astral-docs/site/ruff && mkdir -p astral-docs/site && cp -r site/ruff astral-docs/site/
@@ -107,10 +107,10 @@ jobs:
             xargs -I {} gh pr close {}
 
           # push the branch to GitHub
-          git push origin "${branch_name}"
+          echo git push origin "${branch_name}"
 
           # create the PR
-          gh pr create \
+          echo gh pr create \
             --base=main \
             --head="${branch_name}" \
             --title="${pull_request_title}" \
@@ -126,4 +126,4 @@ jobs:
           # auto-merge the PR if the build was triggered by a release. Manual builds should be reviewed by a human.
           # give the PR a few seconds to be created before trying to auto-merge it
           sleep 10
-          gh pr merge --squash "${branch_name}"
+          echo gh pr merge --squash "${branch_name}"
